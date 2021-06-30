@@ -1,11 +1,18 @@
 
 // VARIABLES
-var buttonEl = document.querySelector(".button");
+var buttonEl = document.querySelector(".start-button");
 var quizEl = document.querySelector(".quiz");
 var timerEl = document.querySelector(".timer");
 var infoEl = document.querySelector(".info");
-var questionEl = document.querySelector(".question");
+const answerButtonEl = document.getElementById("AnsBtn");
+var answerAEl = document.querySelector("#A1");
+var answerBEl = document.querySelector("#A2");
+var answerCEl = document.querySelector("#A3");
+var answerDEl = document.querySelector("#A4");
+var questionEl = document.querySelector(".questions");
 var timer = 25;
+var currentQuestion = 0;
+
 
 
 
@@ -14,112 +21,164 @@ const questionArr = [
   {
     Q: "What is the tag used in HTML that identifies a javascript file?",
     // Another object within contains the answers and lets us denote the correct answer
-    Answers: [
-      { A: "<script>", correct : true },
-      { B: "<run>", correct : false },
-      { C: "<java>", correct : false },
-      { D: "<JSON>", correct : false }
+    A: [
+      { answer: "<script>", correct: true },
+      { answer: "<run>", correct: false },
+      { answer: "<java>", correct: false },
+      { answer: "<JSON>", correct: false }
     ]
   },
 
   {
     Q: "What is the DOM used for?",
-    Answers: [
-      { A: "Setting dominant values", correct : false },
-      { B: "Debugging a webpage", correct : false },
-      { C: "Selecting elements within the HTML file", correct :true },
-      { D: "Saving user information", correct : false }
+    A: [
+      { answer: "Setting dominant values", correct: false },
+      { answer: "Debugging a webpage", correct: false },
+      { answer: "Selecting elements within the HTML file", correct: true },
+      { answer: "Saving user information", correct: false }
     ]
   },
 
   {
     Q: "What does  event.preventDefault() do?",
-    Answers: [
-      { A: "Discards CSS styling inherent to the web browser.", correct : false },
-      { B: "Stops the web page from refreshing when a submit button is clicked.", correct : true },
-      { C: "Stops multiple eventlistners from executing when an element is clicked.", correct : false },
-      { D: "Prevents keyboard input.", correct : false }
+    A: [
+      { answer: "Discards CSS styling inherent to the web browser.", correct: false },
+      { answer: "Stops the web page from refreshing when a submit button is clicked.", correct: true },
+      { answer: "Stops multiple eventlistners from executing when an element is clicked.", correct: false },
+      { answer: "Prevents keyboard input.", correct: false }
     ]
   },
 
   {
     Q: "How might one make a site persistant for the user?",
-    Answers: [
-      { A: "By using cookies.", correct : false },
-      { B: "By saving information to a data server.", correct : false },
-      { C: "By using localStorage.", correct : false },
-      { D: "All of these", correct : true }
+    A: [
+      { answer: "By using cookies.", correct: false },
+      { answer: "By saving information to a data server.", correct: false },
+      { answer: "By using localStorage.", correct: false },
+      { answer: "All of these", correct: true }
     ]
   },
   // Get a different question this worded weird
   {
     Q: "What is the syntax of a function in javascript?",
-    Answers: [
-      { A: "'name' function:", correct : false },
-      { B: "function 'name'[] ()", correct : false },
-      { C: "function 'name'(){}", correct : true },
-      { D: "function-'name';", correct : false }
+    A: [
+      { answer: "'name' function:", correct: false },
+      { answer: "function 'name'[] ()", correct: false },
+      { answer: "function 'name'(){}", correct: true },
+      { answer: "function-'name';", correct: false }
     ]
   },
 
+
   {
     Q: "Where should the javascript be linked in an HTML file?",
-    Answers: [
-      { A: "In the footer", correct : false },
-      { B: "In the head/body", correct : true },
-      { C: "After the body", correct : false },
-      { D: "In the CSS", correct : false }
+    A: [
+      { answer: "In the footer", correct: false },
+      { answer: "In the head/body", correct: true },
+      { answer: "After the body", correct: false },
+      { answer: "In the CSS", correct: false }
     ]
   },
 
   {
     Q: "How might one change or add CSS properties within the script file?",
-    Answers: [
-      { A: ".propagateCSS", correct : false },
-      { B: ".setStyle", correct : false },
-      { C: ".setAttribute", correct : true },
-      { D: ".overwriteCSS", correct : false }
+    A: [
+      { answer: ".propagateCSS", correct: false },
+      { answer: ".setStyle", correct: false },
+      { answer: ".setAttribute", correct: true },
+      { answer: ".overwriteCSS", correct: false }
     ]
   },
+
 
   {
     Q: "Which of these is used to grab an element within the DOM?",
-    Answers: [
-      { A: ".querySelector", correct : true },
-      { B: ".documentID", correct : false },
-      { C: ".getQuery", correct : false },
-      { D: "let", correct : false }
+    A: [
+      { answer: ".querySelector", correct: true },
+      { answer: ".documentID", correct: false },
+      { answer: ".getQuery", correct: false },
+      { answer: "let", correct: false }
     ]
   },
+
 
   {
     Q: "What is console.log() useful for?",
-    Answers: [
-      { A: "Running functions", correct : false },
-      { B: "Debugging", correct : true },
-      { C: "Looking through locally stored files", correct : false },
-      { D: "Searching for code definitions", correct : false }
+    A: [
+      { answer: "Running functions", correct: false },
+      { answer: "Debugging", correct: true },
+      { answer: "Looking through locally stored files", correct: false },
+      { answer: "Searching for code definitions", correct: false }
     ]
   },
 
   {
+
+
     Q: "Free Question",
-    Answers: [
-      { A: "Not this one", correct : false },
-      { B: "No", correct : false },
-      { C: "Click me!", correct : true },
-      { D: "This is not the anser", correct : false }
+    A: [
+      { answer: "Not this one", correct: false },
+      { answer: "No", correct: false },
+      { answer: "Click me!", correct: true },
+      { answer: "This is not the answer", correct: false }
     ]
   }
+];
 
-]; 
 
-console.log(questionArr)
 
-console.log(questionArr.Answers)
 
-function displayQuestions() {
-  questionEl.innerText = questionArr.question
+// GENERATE QUESTIONS
+
+// allows us to sort the question array by random numbers so that we can shuffle the order of the questions
+/*function shuffleQuestions() {
+  let output =questionArr.sort(function (){
+    (Math.random()-0.5)
+  })
+return output;
+}*/
+console.log(answerButtonEl)
+
+function startQuiz() {
+  shuffleQuestions = questionArr.sort(() => Math.floor(Math.random() - 0.5))
+  currentQuestion = 0;
+  nextQuestion();
+
+};
+
+function nextQuestion() {
+  displayQuestion(shuffleQuestions[currentQuestion])
+}
+
+
+function displayQuestion(question) {
+  questionEl.innerText = question.Q;
+  question.A.forEach(answer => {
+    const button = document.createElement('button')
+    button.innerText = answer.answer
+    button.classList.add('Abutton')
+    if (answer.correct) {
+      button.dataset.correct = answer.correct
+    }
+    button.addEventListener('click', selectAnswer)
+    answerButtonEl.appendChild(button)
+  })
+}
+
+function reset() {
+  clearStatusClass(document.body)
+  while (answerButtonEl.firstchild) {
+    answerButtonEl.removeChild(answerButtonEl.firstchild)
+  }
+}
+
+function selectAnswer() {
+  const selectButton = e.target
+  const correct = selectButton.dataset.correct
+  setStatusClass(document.body, correct)
+  Array.from(answerButtonEl.children).forEach(button => {
+    setStatusClass(button, button.dataset.correct)
+  })
 }
 
 
@@ -133,7 +192,6 @@ function noDelaySetInterval(func, interval) {
 
 // Timer function
 function countdown() {
-  // TODO: Use the `setInterval()` method to call a function to be executed every 1000 milliseconds
   var timeInterval = noDelaySetInterval(function () {
     timer--;
     timerEl.textContent = timer;
@@ -144,11 +202,11 @@ function countdown() {
   }, 1000);
 }
 
-// BUTTON
+//START BUTTON
 buttonEl.addEventListener("click", function () {
   countdown();
+  startQuiz();
   buttonEl.style = "display: none;";
-  displayQuestions();
   if (timer === 0) {
     clearInterval()
 

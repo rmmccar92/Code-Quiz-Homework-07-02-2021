@@ -7,15 +7,18 @@ body {
     font-family: sans-serif;
     margin: 0;
     padding: auto;
-    background-color: black;
+    background-color: rgb(74, 78, 88);
     color: white;
 }
+li::marker {
+    font-size: 40px;
+    font-family: "Righteous";
 
+}
 li {
     text-decoration: none;
-    list-style: upper-alpha;
+    list-style: upper-alpha; 
 }
-
 
 .highscore {
     border: solid white;
@@ -23,6 +26,9 @@ li {
 
 .timer {
     border: solid white;
+    font-family: "Righteous";
+    padding: 4em;
+    font-size: 36px;
 }
 
 .quiz {
@@ -38,7 +44,10 @@ li {
 .questions {
     width: 100%;
     border: white solid;
-    margin: 0.5em
+    margin: 0.5em;
+    padding: 0.5em;
+    font-size: 32px;
+    font-weight: bold;
 }
 
 .answers {
@@ -70,7 +79,27 @@ li {
     padding-bottom: 0;
 }
 
-button {
+.Abutton {
+    text-decoration: none;
+    background-image:radial-gradient(#01914e 0%, #022a01 100%);
+    font-size: 32px;
+    border:white solid;
+    color:white;
+    margin: .5em;
+    border-radius: 10px;
+    width: 75%;
+    padding: 0.5em;
+    padding-left: 1em;
+    padding-right: 1em;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-weight: lighter;
+}
+
+button:hover {
+    background-image: radial-gradient(#a0cab6 0%, #076918 100%);
+}
+
+.start-button {
     text-decoration: none;
     border-radius: 60px;
     background-image:radial-gradient(#01914e 0%, #022a01 100%);
