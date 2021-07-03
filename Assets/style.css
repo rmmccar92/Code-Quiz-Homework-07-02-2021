@@ -10,17 +10,8 @@ body {
     background-color: rgb(74, 78, 88);
     color: white;
 }
-li::marker {
-    font-size: 40px;
-    font-family: "Righteous";
 
-}
-li {
-    text-decoration: none;
-    list-style: upper-alpha; 
-}
-
-.highscore {
+.score {
     border: solid white;
 }
 
