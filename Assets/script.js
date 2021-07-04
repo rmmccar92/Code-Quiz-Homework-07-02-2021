@@ -9,10 +9,12 @@ var scoreEl = document.querySelector(".score");
 var gameOverEl = document.querySelector(".gameover");
 var highscoreEl = document.querySelector(".highscore");
 var score = 0;
-var timer = 18;
+var timer = 180;
+var gameOverRunning = false;
 var deduction = 10
 var currentQuestion = 0;
 var answerStatus;
+var timeInterval;
 var questionArr = [
     // Clear
     {
@@ -50,7 +52,7 @@ var questionArr = [
         ],
         correct: "Stops the web page from refreshing when a submit button is clicked."
     },
-// Clear
+    // Clear
     {
         Q: "How might one make a site persistant for the user?",
         A: [
@@ -126,7 +128,7 @@ var questionArr = [
     },
 
     {
-// Clear
+        // Clear
 
         Q: "Free Question",
         A: [
@@ -141,37 +143,40 @@ var questionArr = [
 
 
 function startQuiz() {
+    timerEl.textContent = timer
     currentQuestion = 0;
     shuffle(questionArr);
     displayQuestion();
-    if (currentQuestion > questionArr.length) {
-        reset();
-    }
 };
 
 // function to shuffle the question order
 function shuffle(array) {
-    var currentIndex = array.length,  randomIndex;
-  
+    var currentIndex = array.length, randomIndex;
+
     // While there remain elements to shuffle...
     while (0 !== currentIndex) {
-  
-      // Pick a remaining element...
-      randomIndex = Math.floor(Math.random() * currentIndex);
-      currentIndex--;
-  
-      // And swap it with the current element.
-      [array[currentIndex], array[randomIndex]] = [
-        array[randomIndex], array[currentIndex]];
+
+        // Pick a remaining element...
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex--;
+
+        // And swap it with the current element.
+        [array[currentIndex], array[randomIndex]] = [
+            array[randomIndex], array[currentIndex]];
     }
-  
+
     return array;
-  }
+}
 
 
 function displayQuestion() {
     questionEl.innerHTML = ""
     answerButtonEl.innerHTML = ""
+    var end = questionArr.length - 1
+    if (currentQuestion > end) {
+        gameOver2();
+        return;
+    }
     for (i = 0; i <= questionArr.length; i++) {
         var newQuestion = questionArr[currentQuestion].Q;
         var newAnswers = questionArr[currentQuestion].A;
@@ -183,20 +188,20 @@ function displayQuestion() {
         answer.classList.add('Abutton')
         answerEl.appendChild(answer)
         answer.addEventListener('click', (checkCorrect));
-
     })
+
 }
 
 function checkCorrect(e) {
     var event = e.target;
-    
+
     if (event.innerHTML === questionArr[currentQuestion].correct) {
         currentQuestion++
         displayQuestion();
         console.log("Correct");
         answerStatus = true;
-        score++;
-        scoreEl.textContent ="Score: " + score;
+        score +=((currentQuestion +1) + (Math.floor(timer/10)));
+        scoreEl.textContent = "Score: " + score;
     }
     else {
         // the deduction of time isn't obvious without some kind of animation
@@ -205,14 +210,14 @@ function checkCorrect(e) {
     }
 };
 // SCORE
-scoreEl.textContent ="Score: " + score;
+scoreEl.textContent = "Score: " + score;
 
 function setScore() {
-localStorage.setItem('score' , score);
+    localStorage.setItem('score', score);
 }
 
 // TIMER
-timerEl.textContent = timer
+
 // calls the function early so there's no delay when the button is clicked
 function noDelaySetInterval(func, interval) {
     func();
@@ -220,13 +225,16 @@ function noDelaySetInterval(func, interval) {
 }
 
 // Timer function
-function countdown() {
+function countdown(timeInterval) {
     var timeInterval = noDelaySetInterval(function () {
         timer--;
         timerEl.textContent = timer;
         if (timer === 0) {
             clearInterval(timeInterval);
             gameOver();
+        }
+        if (gameOverRunning) {
+            clearInterval(timeInterval);
         }
     }, 1000);
 }
@@ -236,19 +244,23 @@ function gameOver() {
     quizEl.classList.add('game-over')
     quizEl.innerHTML = gameOverText;
     setScore();
-    var name = prompt("Please Enter Your Name");
-    localStorage.setItem('name' , name);
+    var name = prompt("Please Enter Your Name. You can check your score below on the highscores page.");
+    localStorage.setItem('name', name);
 }
+
+function gameOver2() {
+    gameOverRunning = true
+    var gameOverText = "The End!";
+    quizEl.classList.add('game-over')
+    quizEl.innerHTML = gameOverText;
+    setScore();
+    var name = prompt("Please Enter Your Name. You can check your score below on the highscores page.");
+    localStorage.setItem('name', name);
+}
+
 
 
 buttonEl.addEventListener("click", function () {
     countdown();
-    startQuiz()
-    if (timer === 0) {
-        clearInterval()
-
-    }
-    if (timer === 0) {
-        buttonEl.textContent = "Start"
-    }
+    startQuiz();
 });
