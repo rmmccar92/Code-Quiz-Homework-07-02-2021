@@ -6,8 +6,10 @@ var answerButtonEl = document.getElementById("AnsBtn");
 var questionEl = document.querySelector(".questions");
 var answerEl = document.querySelector(".answers");
 var scoreEl = document.querySelector(".score");
+var gameOverEl = document.querySelector(".gameover");
+var highscoreEl = document.querySelector(".highscore");
 var score = 0;
-var timer = 180;
+var timer = 18;
 var deduction = 10
 var currentQuestion = 0;
 var answerStatus;
@@ -195,11 +197,9 @@ function checkCorrect(e) {
         answerStatus = true;
         score++;
         scoreEl.textContent ="Score: " + score;
-        console.log(score)
     }
     else {
         // the deduction of time isn't obvious without some kind of animation
-        console.log("Incorrect");
         answerStatus = false;
         timer -= deduction;
     }
@@ -207,13 +207,10 @@ function checkCorrect(e) {
 // SCORE
 scoreEl.textContent ="Score: " + score;
 
-function setScore () {
-
+function setScore() {
+localStorage.setItem('score' , score);
 }
 
-function getScore () {
-
-}
 // TIMER
 timerEl.textContent = timer
 // calls the function early so there's no delay when the button is clicked
@@ -221,7 +218,7 @@ function noDelaySetInterval(func, interval) {
     func();
     return setInterval(func, interval);
 }
-console.log
+
 // Timer function
 function countdown() {
     var timeInterval = noDelaySetInterval(function () {
@@ -229,10 +226,20 @@ function countdown() {
         timerEl.textContent = timer;
         if (timer === 0) {
             clearInterval(timeInterval);
-
+            gameOver();
         }
     }, 1000);
 }
+
+function gameOver() {
+    var gameOverText = "Time's Up!";
+    quizEl.classList.add('game-over')
+    quizEl.innerHTML = gameOverText;
+    setScore();
+    var name = prompt("Please Enter Your Name");
+    localStorage.setItem('name' , name);
+}
+
 
 buttonEl.addEventListener("click", function () {
     countdown();

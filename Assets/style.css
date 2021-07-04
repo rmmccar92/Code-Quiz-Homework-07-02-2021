@@ -12,11 +12,16 @@ body {
 }
 
 .score {
-    border: solid white;
+    padding: .75em;
+    font-family: "Righteous";
+    font-size: 32px;
+}
+
+.gameover {
+    display: none;
 }
 
 .timer {
-    border: solid white;
     font-family: "Righteous";
     padding: 4em;
     font-size: 36px;
@@ -25,41 +30,80 @@ body {
 .quiz {
     display: flex;
     border: solid white;
+    background: gray;
+    box-shadow: black;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 1.5em;
+    padding: 5em;
     margin: 2em;
+    border-radius: 14px;
 }
 
 .questions {
     width: 100%;
-    border: white solid;
     margin: 0.5em;
     padding: 0.5em;
     font-size: 32px;
     font-weight: bold;
+    text-align: center;
 }
 
 .answers {
     width: 100%;
-    border: white solid;
     padding: 0.5em;
     margin: 1em;
+    text-align: center;
 }
 
 .info {
     padding: 1.5em;
     margin: 2em;
-    border: solid white;
     display: flex;
 }
 
-.highscore {
+.highscore-link {
     padding: 1em;
     margin: 0.5em;
     padding-top: 0;
     padding-bottom: 0;
+    text-decoration: none;
+    font-size: 32px;
+    font-family: "Righteous";
+}
+
+.highscore {
+    display: flex;
+    border: solid white;
+    background: gray;
+    box-shadow: black;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    margin: 6em 2em 6em 2em;
+    border-radius: 14px;
+}
+
+.highscore h1 {
+    padding: 0;
+    margin: 0;
+}
+
+.highscore-body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.game-over {
+    font-family: "Righteous";
+    font-size: 64px;
+}
+
+a {
+    text-decoration: none;
+    color: white;
 }
 
 
@@ -88,6 +132,7 @@ body {
 
 button:hover {
     background-image: radial-gradient(#a0cab6 0%, #076918 100%);
+    box-shadow: radial-gradient(#a0cab6 0%, #076918 100%);
 }
 
 .start-button {
