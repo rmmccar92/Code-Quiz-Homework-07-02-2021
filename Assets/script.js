@@ -15,8 +15,9 @@ var deduction = 10
 var currentQuestion = 0;
 var answerStatus;
 var timeInterval;
+//  Question Array as an object to contain the questions answers and correct answer
 var questionArr = [
-    // Clear
+
     {
         Q: "What is the tag used in HTML that identifies a javascript file?",
         // Another object within contains the answers and lets us denote the correct answer
@@ -30,7 +31,7 @@ var questionArr = [
     },
 
     {
-        // Clear
+
         Q: "What is the DOM used for?",
         A: [
             "Setting dominant values",
@@ -42,7 +43,7 @@ var questionArr = [
     },
 
     {
-        // Clear
+
         Q: "What does  event.preventDefault() do?",
         A: [
             "Discards CSS styling inherent to the web browser.",
@@ -52,7 +53,7 @@ var questionArr = [
         ],
         correct: "Stops the web page from refreshing when a submit button is clicked."
     },
-    // Clear
+
     {
         Q: "How might one make a site persistant for the user?",
         A: [
@@ -63,9 +64,9 @@ var questionArr = [
         ],
         correct: "All of these"
     },
-    // Get a different question this worded weird
+ 
     {
-        // Clear
+
         Q: "What is the syntax of a function in javascript?",
         A: [
             "'name' function:",
@@ -78,7 +79,7 @@ var questionArr = [
 
 
     {
-        // Clear
+
         Q: "Where should the javascript be linked in an HTML file?",
         A: [
             "In the footer",
@@ -90,7 +91,7 @@ var questionArr = [
     },
 
     {
-        // Clear
+
         Q: "How might one change or add CSS properties within the script file?",
         A: [
             ".propagateCSS",
@@ -103,7 +104,7 @@ var questionArr = [
 
 
     {
-        // Clear
+
         Q: "Which of these is used to grab an element within the DOM?",
         A: [
             ".querySelector",
@@ -116,7 +117,7 @@ var questionArr = [
 
 
     {
-        // Clear
+
         Q: "What is console.log() useful for?",
         A: [
             "Running functions",
@@ -128,7 +129,6 @@ var questionArr = [
     },
 
     {
-        // Clear
 
         Q: "Free Question",
         A: [
@@ -141,10 +141,7 @@ var questionArr = [
     }
 ];
 
-
 function startQuiz() {
-    timerEl.textContent = timer
-    currentQuestion = 0;
     shuffle(questionArr);
     displayQuestion();
 };
@@ -168,20 +165,23 @@ function shuffle(array) {
     return array;
 }
 
-
+// 
 function displayQuestion() {
     questionEl.innerHTML = ""
     answerButtonEl.innerHTML = ""
+    // This allows us to end the quiz when questions are exhausted
     var end = questionArr.length - 1
     if (currentQuestion > end) {
         gameOver2();
         return;
     }
+    // Plucking the Questions and answers from the shuffled questionArr and setting them to display on the page 
     for (i = 0; i <= questionArr.length; i++) {
         var newQuestion = questionArr[currentQuestion].Q;
         var newAnswers = questionArr[currentQuestion].A;
         questionEl.innerHTML = newQuestion
     }
+    // The answers need a forEach to loop through the number of answers within the object and then append each to a button on the page
     newAnswers.forEach(function (button) {
         var answer = document.createElement('button');
         answer.innerHTML = button
@@ -193,18 +193,19 @@ function displayQuestion() {
 }
 
 function checkCorrect(e) {
+    // e.target is what we clicked on the page
     var event = e.target;
-
+    // if the text of the clicked element matches the text of the defined correct answer within the questionArr at the current question then advance the qustion and set the answerstatus to true which is used for scoring and deduction.
     if (event.innerHTML === questionArr[currentQuestion].correct) {
         currentQuestion++
         displayQuestion();
-        console.log("Correct");
         answerStatus = true;
-        score +=((currentQuestion +1) + (Math.floor(timer/10)));
+        // this just makes the score a little more varied by taking the timer into account
+        score += ((currentQuestion + 1) + (Math.floor(timer / 10)));
         scoreEl.textContent = "Score: " + score;
     }
     else {
-        // the deduction of time isn't obvious without some kind of animation
+        //Likewise setting the answer to false and deducting time 
         answerStatus = false;
         timer -= deduction;
     }
@@ -212,6 +213,7 @@ function checkCorrect(e) {
 // SCORE
 scoreEl.textContent = "Score: " + score;
 
+// When called this function will save the current score on the machine for later use
 function setScore() {
     localStorage.setItem('score', score);
 }
@@ -238,12 +240,13 @@ function countdown(timeInterval) {
         }
     }, 1000);
 }
-
+// two gameover functions to differentiate between question exhaustion and time exhaustion
 function gameOver() {
     var gameOverText = "Time's Up!";
     quizEl.classList.add('game-over')
     quizEl.innerHTML = gameOverText;
     setScore();
+    // name entered will be saved in local storage
     var name = prompt("Please Enter Your Name. You can check your score below on the highscores page.");
     localStorage.setItem('name', name);
 }
@@ -259,7 +262,7 @@ function gameOver2() {
 }
 
 
-
+// The event listener that calls the functions that run the quiz
 buttonEl.addEventListener("click", function () {
     countdown();
     startQuiz();

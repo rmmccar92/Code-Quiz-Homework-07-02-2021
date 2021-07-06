@@ -12,6 +12,7 @@ body {
 }
 
 .score {
+    margin: 0.25em;
     padding: .75em;
     font-family: "Righteous";
     font-size: 32px;
@@ -36,8 +37,14 @@ body {
     justify-content: center;
     align-items: center;
     padding: 5em;
-    margin: .5em;
+    margin: 0.5em;
     border-radius: 14px;
+}
+
+.start-text {
+    font-size: 64px;
+    font-family: "Righteous";
+    font-weight: lighter;
 }
 
 .questions {
@@ -54,6 +61,8 @@ body {
     padding: 0.5em;
     margin: 1em;
     text-align: center;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-weight: lighter;
 }
 
 .info {
@@ -65,7 +74,7 @@ body {
 .highscore-link {
     padding: 1em;
     margin: 0.5em;
-    padding-top: 0;
+    padding-top: 0.5em;
     padding-bottom: 0;
     text-decoration: none;
     font-size: 32px;
