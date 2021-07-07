@@ -15,6 +15,8 @@ var deduction = 10
 var currentQuestion = 0;
 var answerStatus;
 var timeInterval;
+var highscoreArr = [];
+var userNameArr = [];
 //  Question Array as an object to contain the questions answers and correct answer
 var questionArr = [
 
@@ -218,6 +220,7 @@ function setScore() {
     localStorage.setItem('score', score);
 }
 
+
 // TIMER
 
 // calls the function early so there's no delay when the button is clicked
@@ -249,7 +252,6 @@ function gameOver() {
     // name entered will be saved in local storage
     var name = prompt("Please Enter Your Name. You can check your score below on the highscores page.");
     localStorage.setItem('name', name);
-    
 }
 
 
@@ -260,8 +262,7 @@ function gameOver2() {
     quizEl.innerHTML = gameOverText;
     setScore();
     var name = prompt("Please Enter Your Name. You can check your score below on the highscores page.");
-    localStorage.setItem('name', name);
-   
+    localStorage.setItem('name', name);   
 }
 
 
