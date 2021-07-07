@@ -1,11 +1,18 @@
 var highscoreEl = document.querySelector('.score-list');
 var nameEl = document.querySelector('.name')
+var userName = localStorage.getItem('name')
+var highscore = localStorage.getItem('score');
 
+
+// This function is used on the highscore page to display the score from local storage
 function displayScores() {
-    var highscore = localStorage.getItem('score');
     highscoreEl.textContent=highscore
-    var name = localStorage.getItem('name')
-    nameEl.textContent=name;
+    nameEl.textContent= userName;
+    if (highscore === 0) {
+        highscoreEl.textContent = "";
+        nameEl.textContent = "";
+    }
 }
+
 
 displayScores();

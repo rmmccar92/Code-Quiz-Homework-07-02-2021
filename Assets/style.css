@@ -32,7 +32,6 @@ body {
     display: flex;
     border: solid white;
     background: gray;
-    box-shadow: black;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -81,11 +80,24 @@ body {
     font-family: "Righteous";
 }
 
+.return-link {
+    padding: 1em;
+    margin: 0.5em;
+    padding-top: 0.5em;
+    padding-bottom: 0;
+    text-decoration: none;
+    font-size: 32px;
+    font-family: "Righteous";
+}
+
+.back {
+    text-align: center;
+}
+
 .highscore {
     display: flex;
     border: solid white;
     background: gray;
-    box-shadow: black;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -143,7 +155,6 @@ a {
 
 button:hover {
     background-image: radial-gradient(#a0cab6 0%, #076918 100%);
-    box-shadow: radial-gradient(#a0cab6 0%, #076918 100%);
 }
 
 .start-button {

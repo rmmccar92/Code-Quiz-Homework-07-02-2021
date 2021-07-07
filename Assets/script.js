@@ -249,7 +249,9 @@ function gameOver() {
     // name entered will be saved in local storage
     var name = prompt("Please Enter Your Name. You can check your score below on the highscores page.");
     localStorage.setItem('name', name);
+    
 }
+
 
 function gameOver2() {
     gameOverRunning = true
@@ -259,11 +261,14 @@ function gameOver2() {
     setScore();
     var name = prompt("Please Enter Your Name. You can check your score below on the highscores page.");
     localStorage.setItem('name', name);
+   
 }
 
 
-// The event listener that calls the functions that run the quiz
+
+// The event listener that calls the functions that run the quiz and hides the start button
 buttonEl.addEventListener("click", function () {
     countdown();
     startQuiz();
+    buttonEl.style.display = "none"
 });
